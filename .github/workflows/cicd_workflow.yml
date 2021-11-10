@@ -1,0 +1,10 @@
+name: Risk_Management
+on:
+  workflow_dispatch:
+jobs:
+  RM_Pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: prepare
+        run: |
+          rm -rf github-action
