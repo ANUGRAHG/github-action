@@ -1,0 +1,206 @@
+## Generated mta.yaml based on template version 0.4.0
+## appName = cpapp
+## language=nodejs; multitenant=false
+## approuter=
+_schema-version: '3.1'
+ID: cpapp
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+
+build-parameters:
+  before-all:
+   - builder: custom
+     commands:
+      - rm -rf cpapp-ui-deployer/resources
+      - npm install --production
+      - bash -c "cds -v 2>/dev/null >/dev/null || npm install --no-save @sap/cds-dk"
+      - npx cds build --production
+      - npx rimraf gen/db/src/gen/data
+      - mkdir gen/ui-resources
+
+modules:
+ - name: cpapp-risks
+   type: html5
+   path: app/risks
+   build-parameters:
+     builder: custom
+     commands:
+       - npm install
+       - npx ui5 build --dest ../../gen/app/risks/dist --include-task=generateManifestBundle --include-task=generateCachebusterInfo
+       - bash -c "cd ../../gen/app/risks/dist && npx bestzip ../risks.zip *"
+     supported-platforms: []
+     build-result: ../../gen/app/risks
+
+ - name: cpapp-mitigations
+   type: html5
+   path: app/mitigations
+   build-parameters:
+     builder: custom
+     commands:
+       - npm install
+       - npx ui5 build --dest ../../gen/app/mitigations/dist --include-task=generateManifestBundle --include-task=generateCachebusterInfo
+       - bash -c "cd ../../gen/app/mitigations/dist && npx bestzip ../mitigations.zip *"
+     supported-platforms: []
+     build-result: ../../gen/app/mitigations
+
+ - name: cpapp-approuter
+   type: nodejs
+   path: approuter
+   parameters:
+     memory: 256MB
+   requires:
+     - name: cpapp-uaa
+     - name: cpapp-logs
+     - name: cpapp-portal
+     - name: cpapp-html5-repo-runtime
+     - name: srv-api
+       group: destinations
+       properties:
+         forwardAuthToken: true
+         strictSSL: true
+         name: srv-api
+         url: ~{srv-url}
+
+
+ # --------------------- SERVER MODULE ------------------------
+ - name: cpapp-srv
+ # ------------------------------------------------------------
+   type: nodejs
+   path: gen/srv
+   parameters:
+     memory: 256MB
+   requires:
+    # Resources extracted from CAP configuration
+    - name: cpapp-db
+    - name: cpapp-uaa
+    - name: cpapp-logs
+    - name: cpapp-connectivity
+    - name: cpapp-destination
+    - name: cpapp-ems
+   provides:
+    - name: srv-api      # required by consumers of CAP services (e.g. approuter)
+      properties:
+        srv-url: ${default-url}
+
+ # -------------------- SIDECAR MODULE ------------------------
+ - name: cpapp-db-deployer
+ # ------------------------------------------------------------
+   type: hdb
+   path: gen/db
+   parameters:
+     buildpack: nodejs_buildpack
+   requires:
+    # 'hana' and 'xsuaa' resources extracted from CAP configuration
+    - name: cpapp-db
+    - name: cpapp-uaa
+    - name: cpapp-logs
+
+ - name: cpapp-ui-resources
+   type: com.sap.application.content
+   path: gen/ui-resources
+   requires:
+     - name: cpapp-html5-repo-host
+       parameters:
+         content-target: true
+   build-parameters:
+     requires:
+       - name: cpapp-risks
+         artifacts:
+           - './*.zip'
+         target-path: .
+       - name: cpapp-mitigations
+         artifacts:
+           - './*.zip'
+         target-path: .
+ - name: cpapp-portal-content-deployer
+   type: com.sap.application.content
+   path: portal-content
+   requires:
+     - name: cpapp-portal
+       parameters:
+         content-target: true
+         service-key:
+           name: cpapp-portal-deploy-key
+           config:
+             content-endpoint: developer
+     - name: cpapp-uaa
+     - name: cpapp-html5-repo-host
+     - name: cpapp-ui-resources
+
+resources:
+# services extracted from CAP configuration
+# 'service-plan' can be configured via 'cds.requires.<name>.vcap.plan'
+# ------------------------------------------------------------
+ - name: cpapp-db
+# ------------------------------------------------------------
+   type: com.sap.xs.hdi-container
+   parameters:
+     service: hana  # or 'hanatrial' on trial landscapes
+     service-plan: hdi-shared
+   properties:
+     hdi-service-name: ${service-name}
+# ------------------------------------------------------------
+ - name: cpapp-uaa
+# ------------------------------------------------------------
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service: xsuaa
+     service-plan: application
+     path: ./xs-security.json
+     config:
+       xsappname: cpapp-${space}    #  name + space dependency
+       tenant-mode: dedicated
+       role-collections:
+        - name: RiskManager-${space}
+          description: Manage Risks
+          role-template-references:
+            - $XSAPPNAME.RiskManager
+        - name: RiskViewer-${space}
+          description: View Risks
+          role-template-references:
+            - $XSAPPNAME.RiskViewer
+
+ - name: cpapp-logs
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service: application-logs
+     service-plan: standard
+
+ - name: cpapp-portal
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service-plan: standard
+     service: portal
+
+ - name: cpapp-html5-repo-runtime
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service-plan: app-runtime
+     service: html5-apps-repo
+
+ - name: cpapp-html5-repo-host
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service-plan: app-host
+     service: html5-apps-repo
+
+ - name: cpapp-connectivity
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service: connectivity
+     service-plan: lite
+
+ - name: cpapp-destination
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service: destination
+     service-plan: lite
+
+ - name: cpapp-ems
+   parameters:
+     path: ./em.json
+     service: enterprise-messaging
+     service-plan: default
+   type: org.cloudfoundry.managed-service

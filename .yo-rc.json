@@ -1,0 +1,8 @@
+{
+  "generator-sapcp": {
+    "promptValues": {
+      "xsAppName": "RiskManagement",
+      "entity": "Risk"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+steps:
+  mtaBuild:
+    buildTarget: 'CF'
+  cloudFoundryDeploy:
+    cloudFoundry:
+      credentialsId: 'pusercf'
+      apiEndpoint: 'https://api.cf.eu10.hana.ondemand.com'
+      org: 'SA0176014160_refapps-cicd'
+      space: 'CICD_RiskManagement'

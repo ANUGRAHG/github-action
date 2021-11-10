@@ -1,0 +1,28 @@
+{
+    "VCAP_SERVICES": {
+      "s4-hana-cloud": [
+        {
+          "label": "s4-hana-cloud",
+          "provider": null,
+          "plan": "api-access",
+          "name": "cap-api098",
+          "tags": ["s4-hana-cloud"],
+          "instance_name": "cap-api098",
+          "binding_name": null,
+          "credentials": {
+            "Type": "HTTP",
+            "XFSystemName": "S/4HANA 300098",
+            "User": "C4CA3AFBDAD1429B99871646FE6C2EF8",
+            "Authentication": "BasicAuthentication",
+            "WebIDEEnabled": "true",
+            "ProxyType": "Internet",
+            "URL": "https://my300098-api.s4hana.ondemand.com/sap/opu/odata/sap/API_BUSINESS_PARTNER",
+            "Name": "cap-api098",
+            "Password": "EbeKDAPdawkMnVXcTlK3thmxWYCAjXn~ZUQwAhrr"
+          },
+          "syslog_drain_url": null,
+          "volume_mounts": []
+        }
+      ]
+    }
+  }
