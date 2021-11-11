@@ -17,3 +17,9 @@ jobs:
          run: |
            node -v
            npm config set unsafe-perm true
+           npm i -g @sap/cds-dk
+           npm install
+       - name: unit-test
+         run: |
+           echo ">> Runnning the local unit tests"
+           sh "npm run-script test:unit"
