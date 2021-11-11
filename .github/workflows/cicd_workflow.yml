@@ -17,5 +17,3 @@ jobs:
          run: |
            node -v
 	   npm config set unsafe-perm true
-	   npm i -g @sap/cds-dk
-           npm install
