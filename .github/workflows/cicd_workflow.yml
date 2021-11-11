@@ -8,3 +8,9 @@ jobs:
       - name: prepare
         run: |
           rm -rf github-action
+           git clone https://.:${{ secrets.GITHUB_TOKEN }}@https://github.com/ANUGRAHG/github-action.git
+           
+           sudo apt-get install nodejs
+           sudo apt-get install npm
+           
+           node -v
