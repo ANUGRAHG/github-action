@@ -29,4 +29,3 @@ jobs:
            cd tests/mocks
            cds build --production
            mv manifest.yml gen/srv/manifest.yml
-	   cd ../..
