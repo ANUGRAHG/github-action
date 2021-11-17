@@ -40,7 +40,7 @@ jobs:
          uses: jvalkeal/setup-cf-cli@v0
          with:
            version: 6.51.0
-       - name: Deploy Mock
+       - name: Deploy
          run: |
            cf login -a $CF_API -u $CF_USERNAME -o $CF_ORG -s $CF_SPACE -p $CF_PASSWORD
            cf push -f tests/mocks/gen/srv/manifest.yml
