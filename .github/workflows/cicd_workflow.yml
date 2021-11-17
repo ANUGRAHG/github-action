@@ -24,3 +24,9 @@ jobs:
            ls
            echo ">> Runnning the local unit tests"
            npm run-script test:unit
+       - name: build
+         run: |
+           cd tests/mocks
+           cds build --production
+           mv manifest.yml gen/srv/manifest.yml
+			     cd ../..
