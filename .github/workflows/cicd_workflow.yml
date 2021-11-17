@@ -33,6 +33,6 @@ jobs:
          with: 
            ruby-version: '2.6'
        - run: |
-           ruby packageJson = readJSON file: 'package.json'
-           ruby packageJson.cds.requires.API_BUSINESS_PARTNER["[production]"].credentials.destination = "cap-api098-mock"
-           ruby writeJSON file: 'package.json', json: packageJson
+           ls
+           npm install -g mbt
+           mbt build -p=cf
