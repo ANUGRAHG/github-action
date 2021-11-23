@@ -82,7 +82,7 @@
         "model": "srv/external/API_BUSINESS_PARTNER",
         "[production]": {
             "credentials": {
-                "destination": "cap-api098"
+                "destination": "cap-api098-mock"
             }
         }
       }
