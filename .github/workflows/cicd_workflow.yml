@@ -52,3 +52,8 @@ jobs:
            CF_SPACE: ${{ secrets.CF_SPACE }}
            CF_USERNAME: ${{ secrets.CF_USERNAME }}
            CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
+       - name: Undeploy
+         run: |
+           echo 'y' | cf undeploy cpapp
+           echo 'y' | cf delete-service cpapp-db
+           echo 'y' | cf delete cpapp-srv-mocks
