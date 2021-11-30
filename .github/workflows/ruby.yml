@@ -10,10 +10,7 @@ jobs:
     steps:
      #  - run: |
     #      sudo apt-get install rubygems
-       - uses: ruby/setup-ruby@v1
+       - uses: actions/setup-ruby@v1
          with:
           ruby-version: 2.6
-          bundler-cache: true
-        # env: 
-         #   --env-file: ~/.env
-#          ImageOS: ubuntu20
+
