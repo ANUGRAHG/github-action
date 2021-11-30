@@ -14,7 +14,6 @@ jobs:
          with:
           ruby-version: 2.6
           bundler-cache: true
-          
-         env: 
-             #--env-file: ~/.env
-          ImageOS: ubuntu20
+        # env: 
+         #   --env-file: ~/.env
+#          ImageOS: ubuntu20
