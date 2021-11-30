@@ -30,8 +30,8 @@ jobs:
            cds build --production
            mv manifest.yml gen/srv/manifest.yml
        - uses: actions/setup-ruby@v1.1.3
-         with: 
-           ruby-version: '2.6'
+         #with: 
+          # ruby-version: '2.6'
        - run: |
            ls
            npm install -g mbt
