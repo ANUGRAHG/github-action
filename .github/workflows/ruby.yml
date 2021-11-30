@@ -17,4 +17,4 @@ jobs:
           
          env: 
              #--env-file: ~/.env
-          ImageOS: "Ubuntu 20.04.3 LTS"
+          ImageOS: "Ubuntu 20.04.3"
