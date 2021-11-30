@@ -17,4 +17,4 @@ jobs:
           
          env: 
              #--env-file: ~/.env
-          ImageOS: ubuntu-latest
+          ImageOS: ubuntu20
