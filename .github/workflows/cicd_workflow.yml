@@ -30,9 +30,10 @@ jobs:
            cds build --production
            mv manifest.yml gen/srv/manifest.yml
 
-       - uses: actions/setup-ruby@v1
+       - uses: ruby/setup-ruby@v1
          with:
           ruby-version: 2.6
+          bundler-cache: true
 
        - run: |
            ls
