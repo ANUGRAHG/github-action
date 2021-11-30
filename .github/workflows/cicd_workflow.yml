@@ -29,9 +29,11 @@ jobs:
            cd tests/mocks
            cds build --production
            mv manifest.yml gen/srv/manifest.yml
-       - uses: ruby/setup-ruby@v1.87.0
-         #with: 
-          # ruby-version: '2.6'
+
+       - uses: actions/setup-ruby@v1
+         with:
+          ruby-version: 2.6
+
        - run: |
            ls
            npm install -g mbt
