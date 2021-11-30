@@ -8,11 +8,13 @@ jobs:
       matrix:
         node-version: [14.x]
     steps:
-       - run: |
-          sudo apt-get install rubygems
+     #  - run: |
+    #      sudo apt-get install rubygems
        - uses: ruby/setup-ruby@v1
          with:
           ruby-version: 2.6
           bundler-cache: true
+          
          env: 
-             --env-file: ~/.env
+             #--env-file: ~/.env
+          ImageOS: "Ubuntu 20.04.3 LTS"
