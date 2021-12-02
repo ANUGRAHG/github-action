@@ -30,13 +30,6 @@ jobs:
            cds build --production
            mv manifest.yml gen/srv/manifest.yml
 
-       - uses: ruby/setup-ruby@v1
-         with:
-          ruby-version: 2.6
-          bundler-cache: true
-         env: 
-             --env-file: ~/.env
-
        - run: |
            ls
            npm install -g mbt
