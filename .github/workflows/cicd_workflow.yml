@@ -29,6 +29,14 @@ jobs:
            cd tests/mocks
            cds build --production
            mv manifest.yml gen/srv/manifest.yml
+           cd ../..
+           
+       - name: Update package.json with mock destination
+         uses: jossef/action-set-json-field@v1
+         with:
+           file: package.json
+           field: cds.requires.API_BUSINESS_PARTNER["[production]"].credentials.destination
+           value: cap-api098-mock
 
        - run: |
            ls
@@ -38,6 +46,7 @@ jobs:
          uses: jvalkeal/setup-cf-cli@v0
          with:
            version: 6.51.0
+           
        - name: Deploy
          run: |
            echo 'y' | cf install-plugin multiapps
@@ -50,7 +59,7 @@ jobs:
            CF_SPACE: ${{ secrets.CF_SPACE }}
            CF_USERNAME: ${{ secrets.CF_USERNAME }}
            CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
-       - name: prepare-integration-test
+       - name: prepare for integration-test
          run: |
            appId=`cf app cpapp-srv --guid`
            `cf curl /v2/apps/$appId/env > tests/appEnv.json`
