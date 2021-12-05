@@ -41,7 +41,16 @@ jobs:
            field: pusername
            value: ${{ secrets.CF_USERNAME }}
            
-       - name: test json
+       - name: Update my-file.json description
+         uses: jossef/action-set-json-field@v1
+         with:
+           file: tests/appEnv.json
+           field: puserpwd
+           value: ${{ secrets.CF_PASSWORD }} 
+           
+       - name: running test
          run: |
            cat tests/appEnv.json
+           npm install --only=dev
+           npm run-script test:integration
            
