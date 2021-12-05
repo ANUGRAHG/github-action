@@ -50,12 +50,32 @@ jobs:
            CF_SPACE: ${{ secrets.CF_SPACE }}
            CF_USERNAME: ${{ secrets.CF_USERNAME }}
            CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
-       - name: Integration-test
+       - name: prepare-integration-test
          run: |
            appId=`cf app cpapp-srv --guid`
            `cf curl /v2/apps/$appId/env > tests/appEnv.json`
            chmod 777 tests/appEnv.json
            cat tests/appEnv.json
+           
+       - name: Update appEnv.json pusername
+         uses: jossef/action-set-json-field@v1
+         with:
+           file: tests/appEnv.json
+           field: pusername
+           value: ${{ secrets.CF_USERNAME }}
+           
+       - name: Update appEnv.json puserpwd
+         uses: jossef/action-set-json-field@v1
+         with:
+           file: tests/appEnv.json
+           field: puserpwd
+           value: ${{ secrets.CF_PASSWORD }} 
+           
+       - name: run integration-test
+         run: |
+           cat tests/appEnv.json
+           npm install --only=dev
+           npm run-script test:integration
            
        - name: Undeploy
          run: |
