@@ -55,7 +55,7 @@ jobs:
            appId=`cf app cpapp-srv --guid`
            `cf curl /v2/apps/$appId/env > tests/appEnv.json`
            chmod 777 tests/appEnv.json
-           cat appEnv.json
+           cat tests/appEnv.json
            
        - name: Undeploy
          run: |
