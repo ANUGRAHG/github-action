@@ -40,6 +40,8 @@ jobs:
            file: tests/appEnv.json
            field: pusername
            value: ${{ secrets.CF_USERNAME }}
+           
+       - name: test json
          run: |
            cat tests/appEnv.json
            
