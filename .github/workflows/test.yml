@@ -33,4 +33,13 @@ jobs:
            `cf curl /v2/apps/$appId/env > tests/appEnv.json`
            chmod 777 tests/appEnv.json
            cat tests/appEnv.json
+       
+       - name: Update my-file.json description
+         uses: jossef/action-set-json-field@v1
+         with:
+           file: tests/appEnv.json
+           field: pusername
+           value: ${{ secrets.CF_USERNAME }}
+         run: |
+           cat tests/appEnv.json
            
