@@ -1,4 +1,4 @@
-name: Risk_Management
+name: test
 on:
   workflow_dispatch:
 jobs:
