@@ -50,6 +50,13 @@ jobs:
            CF_SPACE: ${{ secrets.CF_SPACE }}
            CF_USERNAME: ${{ secrets.CF_USERNAME }}
            CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
+       - name: Integration-test
+         run: |
+           appId=`cf app cpapp-srv --guid`
+           `cf curl /v2/apps/$appId/env > tests/appEnv.json`
+           chmod 777 tests/appEnv.json
+           cat appEnv.json
+           
        - name: Undeploy
          run: |
            echo 'y' | cf undeploy cpapp
