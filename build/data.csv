@@ -1,0 +1,11 @@
+ServiceName_Entitlement,servicePlan_Entitlement,Subscriptions,AssignRoleCollectionToDesiredUser,Email,SubDomainName,ApiEndpoint,DisplayName,Region,OrgName,SpaceNameInCF
+hana-cloud,hana,cicd-app:default,Launchpad_Admin:dl_5731d5595f99b74a3c000020@exchange.sap.corp,dl_5731d5595f99b74a3c000020@exchange.sap.corp,RiskMgtDomainR,cpcli.cf.sap.hana.ondemand.com,riskMgtBTP_E2ER,eu10-canary,RiskMgtOrgR,dev
+hana,hdi-shared,SAPLaunchpad:standard,,,,,,,,
+scp-launchpad,standard,,,,,,,,,
+SAPLaunchpad,standard,,,,,,,,,
+cicd-app,default:free:trial,,,,,,,,,
+enterprise-messaging,default,,,,,,,,,
+service-manager,container,,,,,,,,,
+portal,standard,,,,,,,,,
+application-logs,standard,,,,,,,,,
+APPLICATION_RUNTIME,MEMORY,,,,,,,,,
